@@ -236,7 +236,9 @@ code,pre{font-family:var(--font-mono)}
 .code-card{margin:auto 0 0;padding:16px 18px;border-radius:12px;background:#12161b;color:#d6dde5;font-size:12.5px;line-height:1.7;overflow-x:auto;white-space:pre;border:1px solid #20262e}
 .tok-str{color:#cde99a}.tok-num{color:#f6c38c}.tok-com{color:#7d8897}.tok-name{color:#a8c8ff}
 .workflow-boundary{display:flex;gap:12px;align-items:flex-start;margin-top:28px;font-size:13.5px;line-height:1.75;color:#56624f;max-width:900px}
-.workflow-boundary>span{font-size:20px;line-height:1.2;color:#5c7542}
+.workflow-boundary>span[aria-hidden]{font-size:20px;line-height:1.2;color:#5c7542}
+.workflow-boundary a{color:#37671b;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.workflow-boundary a:hover{color:#151b15}
 
 /* Live demo */
 .demo-section{padding:96px 0 40px}
