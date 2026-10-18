@@ -1,0 +1,10 @@
+# Deploy a site-only mirror containing this file and website/dist/.
+# Keep the private research repository and its outputs out of that mirror.
+services:
+  - type: web
+    name: consequa-x
+    runtime: static
+    rootDir: website
+    buildCommand: "true"
+    staticPublishPath: dist
+    autoDeployTrigger: "off"

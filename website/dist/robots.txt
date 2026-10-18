@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://consequa-x.brawny-deer-5658.chatgpt.site/sitemap.xml
