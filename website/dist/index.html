@@ -9,8 +9,8 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20261018-ui5">
   <link rel="preload" href="fonts/SpaceGrotesk-Variable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="styles.css?v=20261018-ui5">
-  <script src="assets/demo-data.js?v=20261018-ui5" defer></script>
-  <script src="app.js?v=20261018-ui5" defer></script>
+  <script src="assets/demo-data.js?v=20261019-ui6" defer></script>
+  <script src="app.js?v=20261019-ui6" defer></script>
 </head>
 <body class="home">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -55,7 +55,7 @@
         <div class="inspector reveal" data-inspector data-tone="satisfied">
           <div class="inspector-top">
             <div class="inspector-title"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m3 13 6-10h7l-6 10H3Zm2 4 2-4h7l3-5" stroke="currentColor" stroke-width="1.5"/></svg><span>Evidence inspector</span><code class="inspector-file" data-file>my-demo/traces/episode_01.json</code></div>
-            <span class="inspector-badge"><span class="status-dot" aria-hidden="true"></span>Real package trace · v<span data-version>2.0.0</span></span>
+            <span class="inspector-badge"><span class="status-dot" aria-hidden="true"></span>Real package trace · v<span data-version>2.1.1</span></span>
           </div>
           <div class="inspector-tabs" role="tablist" aria-label="Choose a demo trace" data-tabs>
             <button class="inspector-tab" type="button" role="tab" id="tab-0" aria-selected="true" aria-controls="inspector-panel" data-index="0"><span class="tab-label">Timeout after commit</span><code>timeout_after_commit</code></button>
@@ -173,6 +173,7 @@ retry_advice(receipt).advice
             <div class="tour" role="group" aria-label="Jump to a report section" data-tour>
               <button type="button" data-section="summary">Summary</button>
               <button type="button" data-section="timeline">Timeline</button>
+              <button type="button" data-section="contract">Contract</button>
               <button type="button" data-section="evidence">Readback</button>
               <button type="button" data-section="graph">Evidence graph</button>
             </div>
@@ -182,13 +183,13 @@ retry_advice(receipt).advice
             </div>
           </div>
           <div class="demo-controls">
-            <button class="icon-button" type="button" data-demo-play aria-label="Pause demo"><span aria-hidden="true" data-demo-play-icon>❚❚</span></button>
+            <button class="icon-button" type="button" data-demo-play aria-label="Play demo"><span aria-hidden="true" data-demo-play-icon>▶</span></button>
             <button class="icon-button" type="button" data-demo-replay aria-label="Replay demo"><span aria-hidden="true">↺</span></button>
             <span class="demo-status" data-demo-status>Starts when it scrolls into view.</span>
           </div>
         </div>
         <div class="demo-caption reveal">
-          <p>Recorded from <code>consequa-x</code> <span data-version>2.0.0</span> in a fresh folder by <code>scripts/build_site_demo.py</code>. Printed absolute paths are shown relative to that folder; nothing else is edited. The window shows the file those commands wrote, byte for byte (SHA-256 <code data-report-hash>3126d8872ca3…</code>). It runs no action, verifier or model in your browser.</p>
+          <p>Recorded from <code>consequa-x</code> <span data-version>2.1.1</span> in a fresh folder by <code>scripts/build_site_demo.py</code>. Printed absolute paths are shown relative to that folder; nothing else is edited. The window shows the file those commands wrote, byte for byte (SHA-256 <code data-report-hash>9a34912b6ca7…</code>). It runs no action, verifier or model in your browser.</p>
           <a class="text-link" href="assets/sample-report.zip" download="ConseqaX-offline-report.zip">Download the report <span aria-hidden="true">↓</span></a>
         </div>
       </div>

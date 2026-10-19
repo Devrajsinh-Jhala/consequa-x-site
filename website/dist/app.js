@@ -426,15 +426,21 @@
         group.classList.toggle("is-on", on);
         if (on) visible.add(node.id);
       });
+      const animate = playing && motionAllowed();
       state.graph.edges.forEach((item) => {
         const on = visible.has(item.edge.source) && visible.has(item.edge.target);
+        item.path.style.transition = animate ? "" : "none";
         item.path.style.strokeDashoffset = on ? "0" : String(item.length);
         if (!on) {
           window.clearTimeout(item.done);
           item.path.removeAttribute("marker-end");
           item.done = 0;
+        } else if (!animate) {
+          window.clearTimeout(item.done);
+          item.path.setAttribute("marker-end", "url(#g-arrow)");
+          item.done = -1;
         } else if (!item.done) {
-          item.done = window.setTimeout(() => item.path.setAttribute("marker-end", "url(#g-arrow)"), motionAllowed() ? 700 : 0);
+          item.done = window.setTimeout(() => item.path.setAttribute("marker-end", "url(#g-arrow)"), 700);
         }
       });
       renderVerdict(scenario, t);
@@ -501,7 +507,7 @@
     if ("ResizeObserver" in window) {
       let ribbonWidth = ribbonHost.clientWidth;
       let graphWidth = graphHost.clientWidth;
-      new ResizeObserver(() => {
+      const observer = new ResizeObserver(() => {
         const nextRibbon = ribbonHost.clientWidth;
         const nextGraph = graphHost.clientWidth;
         if (Math.abs(nextRibbon - ribbonWidth) < 4 && Math.abs(nextGraph - graphWidth) < 4) return;
@@ -511,7 +517,9 @@
         state.ribbon = renderRibbon(state.scenario);
         state.graph = renderGraph(state.scenario);
         renderAt();
-      }).observe(ribbonHost);
+      });
+      observer.observe(ribbonHost);
+      observer.observe(graphHost);
     }
     if (motionAllowed() && "IntersectionObserver" in window) {
       state.progress = 0;
@@ -580,11 +588,12 @@
       };
       requestAnimationFrame(step);
     });
-    const setStatus = (text) => { status.textContent = text; };
+    let activeStatus = status.textContent;
+    const setStatus = (text) => { activeStatus = text; status.textContent = text; };
     const setPaused = (value) => {
       paused = value;
       playIcon.textContent = value ? "▶" : "❚❚";
-      playButton.setAttribute("aria-label", value ? "Resume demo" : "Pause demo");
+      playButton.setAttribute("aria-label", value ? (running ? "Resume demo" : "Play demo") : "Pause demo");
     };
     const caret = html("span", "caret");
     caret.setAttribute("aria-hidden", "true");
@@ -612,7 +621,9 @@
       const target = doc.getElementById(section);
       return target ? Math.max(0, target.getBoundingClientRect().top + doc.defaultView.scrollY - 14) : 0;
     };
+    let scrollToken = 0;
     const scrollFrame = (section, id, duration = 900) => new Promise((resolve, reject) => {
+      const token = ++scrollToken;
       const doc = frameDocument();
       if (!doc) {
         frameElement.src = `assets/sample-report.html#${section}`;
@@ -632,7 +643,9 @@
       let previous = performance.now();
       const step = (now) => {
         if (id !== undefined && id !== run) { reject(cancelled); return; }
-        if (!paused) elapsed += now - previous;
+        if (token !== scrollToken) { resolve(); return; }
+        // Pause holds the automatic tour; a jump the visitor asked for still runs.
+        if (id === undefined || !paused) elapsed += now - previous;
         previous = now;
         const x = Math.min(1, elapsed / duration);
         const y = from + (to - from) * easeInOut(x);
@@ -657,14 +670,17 @@
     };
 
     const tour = async (id) => {
-      if (!(await frameReady())) { setStatus("Done. The report is open; use the section buttons to move around."); return; }
+      const ready = await frameReady();
+      if (id !== run) return;
+      if (!ready) { setStatus("Done. The report is open; use the section buttons to move around."); return; }
       touring = true;
       setStatus("Report written. Touring its sections. Scroll it yourself to take over.");
-      const sections = ["summary", "timeline", "evidence", "graph"];
+      const sections = ["summary", "timeline", "contract", "evidence", "graph"];
       for (const section of sections) {
         if (!touring) return;
         setActive(section);
         await scrollFrame(section, id);
+        if (!touring) return;
         await wait(section === "summary" ? 1800 : 2600, id);
         if (userTookOver()) {
           touring = false;
@@ -714,11 +730,13 @@
       line.appendChild(caret);
       await openReport(id);
       await tour(id);
-      running = false;
+      if (id === run) running = false;
     };
 
     const showFinal = () => {
       run += 1;
+      running = false;
+      touring = false;
       screen.replaceChildren();
       addLine("t-comment", comment);
       data.terminal.forEach((step) => {
@@ -732,7 +750,9 @@
       setStatus("Showing the complete recorded session. Use the section buttons to move around the report.");
     };
 
+    let observer = null;
     const start = () => {
+      if (observer) { observer.disconnect(); observer = null; }
       run += 1;
       const id = run;
       touring = false;
@@ -741,15 +761,20 @@
     };
 
     tourButtons.forEach((button) => button.addEventListener("click", () => {
+      if (observer) { observer.disconnect(); observer = null; }
+      if (browser.classList.contains("is-waiting") || browser.classList.contains("is-opening")) showFinal();
+      run += 1;
+      running = false;
       touring = false;
+      setPaused(true);
       setActive(button.dataset.section);
       scrollFrame(button.dataset.section, undefined, 700).catch(() => {});
-      if (!running) setStatus("Jumped to a report section.");
+      setStatus("Jumped to a report section. Press play to run the demo again.");
     }));
     playButton.addEventListener("click", () => {
       if (!running && !touring) { start(); return; }
       setPaused(!paused);
-      if (paused) setStatus("Paused.");
+      status.textContent = paused ? "Paused." : activeStatus;
     });
     replayButton.addEventListener("click", start);
 
@@ -757,10 +782,11 @@
       showFinal();
       setPaused(true);
     } else {
-      const observer = new IntersectionObserver((entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        observer.disconnect();
-        start();
+      // Nothing has run yet: keep the report hidden until the commands that write it have played.
+      browser.classList.add("is-waiting");
+      setPaused(true);
+      observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) start();
       }, { threshold: 0, rootMargin: "0px 0px -45% 0px" });
       observer.observe(stage);
     }
