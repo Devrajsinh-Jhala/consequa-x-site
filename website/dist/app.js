@@ -165,11 +165,15 @@
       const label = (text, y) => svg("text", { x: 0, y: y + 4, class: "rb-row-label" }, canvas).textContent = text;
       label("CONTRACT", rowY.contract);
       label("EFFECTS", rowY.effects);
-      r.observations.forEach((_, index) => label(`READBACK ${index + 1}`, rowY[`read${index}`]));
+      r.observations.forEach((observation, index) => label(observation.label || `READBACK ${index + 1}`, rowY[`read${index}`]));
       svg("rect", { x: x(r.registered_ms), y: rowY.contract - 9, width: Math.max(2, x(r.deadline_ms) - x(r.registered_ms)), height: 18, rx: 5, class: "rb-window" }, canvas);
       if (r.stability_ms) svg("rect", { x: x(r.deadline_ms), y: rowY.contract - 9, width: x(r.horizon_ms) - x(r.deadline_ms), height: 18, rx: 5, class: "rb-window", opacity: 0.5 }, canvas);
-      const count = r.exact_count === null ? "at least one refund" : `exactly ${r.exact_count} refund${r.exact_count === 1 ? "" : "s"}`;
-      svg("text", { x: (x(r.registered_ms) + x(r.deadline_ms)) / 2, y: rowY.contract + 4, "text-anchor": "middle", class: "rb-label" }, canvas).textContent = `${count} · ${r.registered_ms}–${r.deadline_ms} ms`;
+      const count = r.composition || (r.exact_count === null ? "at least one refund" : `exactly ${r.exact_count} refund${r.exact_count === 1 ? "" : "s"}`);
+      // Centre the window label when it fits; otherwise start it at the window so it never
+      // runs into the row label.
+      const windowText = `${count} · ${r.registered_ms}–${r.deadline_ms} ms`;
+      const windowFits = windowText.length * 6.5 + 8 <= x(r.deadline_ms) - x(r.registered_ms);
+      svg("text", { x: windowFits ? (x(r.registered_ms) + x(r.deadline_ms)) / 2 : Math.min(x(r.registered_ms) + 6, width - windowText.length * 6.5), y: rowY.contract + 4, "text-anchor": windowFits ? "middle" : "start", class: "rb-label" }, canvas).textContent = windowText;
       // Keep every label inside the drawing: flip it left of its anchor when it would overflow.
       const place = (anchor, text, attributes, parent) => {
         const fits = anchor + 8 + text.length * 6.5 <= width;
@@ -197,8 +201,12 @@
         svg("rect", { x: x(0), y: y - 6, width: Math.max(2, x(observation.watermark_ms) - x(0)), height: 12, rx: 4, class: `rb-bar ${kind}` }, group);
         const verdictText = observation.covers_horizon ? "covers horizon" : "before horizon";
         const text = `watermark ${observation.watermark_ms} ms · ${verdictText}`;
-        // Beside the bar when there is room; otherwise above its start, clear of the horizon line.
-        const fitsRight = x(observation.watermark_ms) + 8 + text.length * 6.5 <= width;
+        // Beside the bar when there is room and the label crosses neither the horizon line nor
+        // this readback's own dot; otherwise above the bar's start.
+        const start = x(observation.watermark_ms);
+        const end = start + 8 + text.length * 6.5;
+        const crosses = (at) => at > start && at < end + 4;
+        const fitsRight = end <= width && !crosses(x(r.horizon_ms)) && !crosses(x(observation.observed_ms));
         place(fitsRight ? x(observation.watermark_ms) : x(0) - 8, text,
               { y: fitsRight ? y + 4 : y - 10, class: `rb-bar-label ${kind}` }, group);
         svg("circle", { cx: x(observation.observed_ms), cy: y, r: 3, class: "rb-read" }, group);
@@ -379,7 +387,7 @@
         tab.tabIndex = selected ? 0 : -1;
       });
       panel.setAttribute("aria-labelledby", tabs[index].id);
-      if (fileLabel) fileLabel.textContent = `my-demo/${scenario.file}`;
+      if (fileLabel) fileLabel.textContent = scenario.file;
       const stops = [...new Set([
         ...scenario.timeline.map((entry) => entry.t),
         ...scenario.graph.nodes.map((node) => node.reveal_ms),

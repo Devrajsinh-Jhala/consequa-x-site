@@ -22,6 +22,7 @@
         <a href="#inspector">Inspector</a>
         <a href="#how-it-works">How it works</a>
         <a href="#demo">Live demo</a>
+        <a href="#frameworks">Frameworks</a>
         <a href="docs.html">Docs</a>
         <a href="https://github.com/Devrajsinh-Jhala/consequa-x" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a class="nav-cta" href="#start">Get started <span aria-hidden="true">→</span></a>
@@ -47,8 +48,8 @@
     <section class="inspector-section" id="inspector" aria-labelledby="inspector-title">
       <div class="section-shell">
         <div class="section-heading reveal">
-          <div><span class="eyebrow"><i aria-hidden="true"></i> EVIDENCE INSPECTOR</span><h2 id="inspector-title">Same refund.<br>Four evidence situations.</h2></div>
-          <p>Each tab replays a trace written by the package’s own demo, then shows what <code>explain()</code> concludes from it. Nothing here is a hand-written outcome.</p>
+          <div><span class="eyebrow"><i aria-hidden="true"></i> EVIDENCE INSPECTOR</span><h2 id="inspector-title">Same refund.<br>Five evidence situations.</h2></div>
+          <p>Each tab replays a trace written by the package’s own demo or a runnable example, then shows what <code>explain()</code> concludes from it. Nothing here is a hand-written outcome.</p>
         </div>
 
         <div class="inspector reveal" data-inspector data-tone="satisfied">
@@ -61,6 +62,7 @@
             <button class="inspector-tab" type="button" role="tab" id="tab-1" aria-selected="false" aria-controls="inspector-panel" data-index="1" tabindex="-1"><span class="tab-label">Stale readback</span><code>delayed_visibility</code></button>
             <button class="inspector-tab" type="button" role="tab" id="tab-2" aria-selected="false" aria-controls="inspector-panel" data-index="2" tabindex="-1"><span class="tab-label">Another actor</span><code>external_actor</code></button>
             <button class="inspector-tab" type="button" role="tab" id="tab-3" aria-selected="false" aria-controls="inspector-panel" data-index="3" tabindex="-1"><span class="tab-label">Later readback</span><code>delayed_reconciled</code></button>
+            <button class="inspector-tab" type="button" role="tab" id="tab-4" aria-selected="false" aria-controls="inspector-panel" data-index="4" tabindex="-1"><span class="tab-label">Two-part outcome</span><code>ticket_left_open</code></button>
           </div>
           <div class="inspector-body" id="inspector-panel" role="tabpanel" aria-labelledby="tab-0">
             <div class="inspector-col history-col">
@@ -83,10 +85,10 @@
             <output class="clock" data-clock>t = 0 ms</output>
           </div>
         </div>
-        <p class="inspector-note reveal">Traces come from <code>consequa-x demo</code> with seed 0. Times are the recorded milliseconds; playback compresses the gaps between them. The graph shows every node and link the package builds for these records, except captured-order links and context events.</p>
+        <p class="inspector-note reveal">The first four traces come from <code>consequa-x demo</code> with seed 0. The two-part outcome comes from <a href="https://github.com/Devrajsinh-Jhala/consequa-x/blob/main/examples/two_part_outcome.py"><code>examples/two_part_outcome.py</code></a>: one tool call must refund the order <em>and</em> close the ticket, the CRM update is dropped, and readback from each system decides the <code>all_of</code> contract. Times are the recorded milliseconds; playback compresses the gaps between them. The graph shows every node and link the package builds for these records, except captured-order links and context events.</p>
         <details class="results-table reveal">
-          <summary>All four results as a table</summary>
-          <div class="table-wrap" role="region" tabindex="0" aria-label="Results of explain() for the four demo traces">
+          <summary>All five results as a table</summary>
+          <div class="table-wrap" role="region" tabindex="0" aria-label="Results of explain() for the five inspector traces">
             <table data-results-table>
               <thead><tr><th scope="col">Demo trace</th><th scope="col">Tool response</th><th scope="col">Agent reported</th><th scope="col">Verified state</th><th scope="col">Effect origin</th><th scope="col">Alignment</th><th scope="col">Diagnoses</th></tr></thead>
               <tbody>
@@ -94,6 +96,7 @@
                 <tr><td><code>delayed_visibility</code></td><td>success</td><td>success</td><td>unknown</td><td>unknown</td><td>unassessable</td><td><code>UNKNOWN_OUTCOME</code> <code>UNVERIFIED_ASSESSMENT</code></td></tr>
                 <tr><td><code>external_actor</code></td><td>timeout</td><td>failure</td><td>satisfied</td><td>other_actor</td><td>unassessable</td><td><code>UNASSESSABLE_ASSESSMENT</code> <code>EXTERNAL_ACTOR_EFFECT</code></td></tr>
                 <tr><td><code>delayed_reconciled</code></td><td>success</td><td>success</td><td>satisfied</td><td>confirmed</td><td>consistent</td><td><code>CONSISTENT_OUTCOME</code></td></tr>
+                <tr><td><code>ticket_left_open</code></td><td>success</td><td>success</td><td>violated</td><td>confirmed</td><td>contradicted</td><td><code>ASSESSMENT_DIVERGENCE</code> <code>RESPONSE_EFFECT_DIVERGENCE</code> <code>CONSEQUENCE_VIOLATION</code> <code>PART_VIOLATED</code></td></tr>
               </tbody>
             </table>
           </div>
@@ -104,7 +107,7 @@
     <div class="foundation-band section-shell reveal" aria-label="Package foundations">
       <div><span class="foundation-value">0</span><span>required runtime<br>dependencies</span></div>
       <div><span class="foundation-value">1 file</span><span>self-contained<br>offline report</span></div>
-      <div><span class="foundation-value">0.1</span><span>portable, versioned<br>trace schema</span></div>
+      <div><span class="foundation-value">1.0</span><span>portable, versioned<br>trace schema</span></div>
       <div><span class="foundation-value">MIT</span><span>your stack,<br>your application</span></div>
     </div>
 
@@ -118,7 +121,7 @@
           <li class="workflow-step reveal" style="--i:0">
             <span class="step-index">01 / CAPTURE</span>
             <h3>Declare the outcome first.</h3>
-            <p>Register a contract before the action: what must hold, by when, how many times. The recorder keeps dispatches, responses and what the agent reported.</p>
+            <p>Register a contract before the action: what must hold, by when, how many times. A run can register several actions, and an outcome with several parts is one <code>all_of</code> or <code>any_of</code> contract. The recorder keeps dispatches, responses and what the agent reported.</p>
             <pre class="code-card"><code><span class="tok-name">rec</span> = TraceRecorder(
     <span class="tok-str">"agent-loop"</span>, actor=AGENT)
 <span class="tok-name">refund</span> = rec.register(
@@ -130,7 +133,7 @@
           <li class="workflow-step reveal" style="--i:1">
             <span class="step-index">02 / READ BACK</span>
             <h3>Check beyond the tool.</h3>
-            <p>Read your system of record through a separate read-only path. The built-in record verifier checks rows, orders or tickets; stale, incomplete or unavailable readback stays <strong>unknown</strong>.</p>
+            <p>Read your system of record through a separate read-only path. The built-in record verifier checks rows, orders or tickets, and <code>CompositeVerifier</code> checks each part against its own source; stale, incomplete or unavailable readback stays <strong>unknown</strong>.</p>
             <pre class="code-card"><code><span class="tok-name">VERIFIER</span> = RecordVerifier(
     scope_fields=(<span class="tok-str">"order_id"</span>,))
 <span class="tok-name">receipt</span> = refund.verify(

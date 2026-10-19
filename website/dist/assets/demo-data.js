@@ -46,7 +46,7 @@ window.CONSEQUA_DEMO = {
    "id": "episode_01",
    "label": "Timeout after commit",
    "scenario": "timeout_after_commit",
-   "file": "traces/episode_01.json",
+   "file": "my-demo/traces/episode_01.json",
    "response": [
     "timeout"
    ],
@@ -272,7 +272,7 @@ window.CONSEQUA_DEMO = {
    "id": "episode_05",
    "label": "Stale readback",
    "scenario": "delayed_visibility",
-   "file": "traces/episode_05.json",
+   "file": "my-demo/traces/episode_05.json",
    "response": [
     "success"
    ],
@@ -492,7 +492,7 @@ window.CONSEQUA_DEMO = {
    "id": "episode_09",
    "label": "Another actor",
    "scenario": "external_actor",
-   "file": "traces/episode_09.json",
+   "file": "my-demo/traces/episode_09.json",
    "response": [
     "timeout"
    ],
@@ -712,7 +712,7 @@ window.CONSEQUA_DEMO = {
    "id": "episode_06",
    "label": "Later readback",
    "scenario": "delayed_reconciled",
-   "file": "traces/episode_06.json",
+   "file": "my-demo/traces/episode_06.json",
    "response": [
     "success"
    ],
@@ -1034,6 +1034,408 @@ window.CONSEQUA_DEMO = {
     "diagnosis": "CONSISTENT_OUTCOME",
     "summary": "Agent reported success; independent verification is satisfied; effect origin is confirmed.",
     "reason": "Refund predicate is satisfied through the declared horizon"
+   }
+  },
+  {
+   "id": "two_part",
+   "label": "Two-part outcome",
+   "scenario": "ticket_left_open",
+   "file": "two-part-run/trace.json",
+   "response": [
+    "success"
+   ],
+   "assessment": "success",
+   "timeline": [
+    {
+     "t": 0,
+     "t_end": 0,
+     "kind": "context",
+     "label": "Context captured",
+     "detail": "user input"
+    },
+    {
+     "t": 2,
+     "kind": "decision",
+     "label": "Agent decides to resolve the case",
+     "detail": "Policy decision"
+    },
+    {
+     "t": 3,
+     "kind": "contract",
+     "label": "Outcome contract registered",
+     "detail": "All of 2 parts by 200 ms; persists to 260 ms: refund of INR 50; ticket t-9 closed"
+    },
+    {
+     "t": 5,
+     "kind": "dispatch",
+     "label": "Case resolution dispatched",
+     "detail": "Attempt 1"
+    },
+    {
+     "t": 18,
+     "kind": "response",
+     "label": "Tool response: success",
+     "tone": "success",
+     "detail": "A response describes the call, not the outcome"
+    },
+    {
+     "t": 20,
+     "kind": "assessment",
+     "label": "Agent reports success",
+     "detail": "Reported assessment, not verification"
+    },
+    {
+     "t": 300,
+     "kind": "readback",
+     "label": "Independent readback 1 (payments)",
+     "detail": "Watermark 300 ms; complete; 1 effect record"
+    },
+    {
+     "t": 300,
+     "kind": "readback",
+     "label": "Independent readback 2 (crm)",
+     "detail": "Watermark 140 ms; complete; 0 effect records"
+    },
+    {
+     "t": 300,
+     "kind": "verification",
+     "label": "Verification 1: unknown",
+     "tone": "unknown",
+     "detail": "Origin confirmed. All 2 parts are required: refund-o-17 satisfied; close-t-9 unknown"
+    },
+    {
+     "t": 400,
+     "kind": "readback",
+     "label": "Independent readback 3 (payments)",
+     "detail": "Watermark 400 ms; complete; 1 effect record"
+    },
+    {
+     "t": 400,
+     "kind": "readback",
+     "label": "Independent readback 4 (crm)",
+     "detail": "Watermark 400 ms; complete; 0 effect records"
+    },
+    {
+     "t": 400,
+     "kind": "verification",
+     "label": "Verification 2: violated",
+     "tone": "violated",
+     "detail": "Origin confirmed. All 2 parts are required: refund-o-17 satisfied; close-t-9 violated"
+    }
+   ],
+   "ribbon": {
+    "registered_ms": 3,
+    "deadline_ms": 200,
+    "stability_ms": 60,
+    "horizon_ms": 260,
+    "exact_count": null,
+    "observations": [
+     {
+      "observed_ms": 300,
+      "watermark_ms": 300,
+      "complete": true,
+      "available": true,
+      "covers_horizon": true,
+      "effects": [
+       {
+        "committed_ms": 12,
+        "actor": "agent",
+        "linked": true
+       }
+      ],
+      "label": "PAYMENTS 1"
+     },
+     {
+      "observed_ms": 300,
+      "watermark_ms": 140,
+      "complete": true,
+      "available": true,
+      "covers_horizon": false,
+      "effects": [],
+      "label": "CRM 1"
+     },
+     {
+      "observed_ms": 400,
+      "watermark_ms": 400,
+      "complete": true,
+      "available": true,
+      "covers_horizon": true,
+      "effects": [
+       {
+        "committed_ms": 12,
+        "actor": "agent",
+        "linked": true
+       }
+      ],
+      "label": "PAYMENTS 2"
+     },
+     {
+      "observed_ms": 400,
+      "watermark_ms": 400,
+      "complete": true,
+      "available": true,
+      "covers_horizon": true,
+      "effects": [],
+      "label": "CRM 2"
+     }
+    ],
+    "composition": "all of 2 parts"
+   },
+   "graph": {
+    "nodes": [
+     {
+      "id": "Dispatch 1",
+      "kind": "action_dispatch",
+      "lane": 0,
+      "time_ms": 5,
+      "reveal_ms": 5,
+      "status": null,
+      "origin": null,
+      "actor": null
+     },
+     {
+      "id": "Response 1",
+      "kind": "tool_response",
+      "lane": 0,
+      "time_ms": 18,
+      "reveal_ms": 18,
+      "status": "success",
+      "origin": null,
+      "actor": null
+     },
+     {
+      "id": "Assessment 1",
+      "kind": "agent_assessment",
+      "lane": 0,
+      "time_ms": 20,
+      "reveal_ms": 20,
+      "status": "success",
+      "origin": null,
+      "actor": null
+     },
+     {
+      "id": "Contract 1",
+      "kind": "postcondition",
+      "lane": 3,
+      "time_ms": 3,
+      "reveal_ms": 3,
+      "status": null,
+      "origin": null,
+      "actor": null
+     },
+     {
+      "id": "Effect identity 1",
+      "kind": "external_effect_identity",
+      "lane": 1,
+      "time_ms": 300,
+      "reveal_ms": 300,
+      "status": null,
+      "origin": null,
+      "actor": null
+     },
+     {
+      "id": "Readback 1",
+      "kind": "external_observation",
+      "lane": 2,
+      "time_ms": 300,
+      "reveal_ms": 300,
+      "status": null,
+      "origin": null,
+      "actor": null
+     },
+     {
+      "id": "Witness 1",
+      "kind": "observed_external_effect",
+      "lane": 1,
+      "time_ms": 12,
+      "reveal_ms": 300,
+      "status": null,
+      "origin": null,
+      "actor": "agent"
+     },
+     {
+      "id": "Readback 2",
+      "kind": "external_observation",
+      "lane": 2,
+      "time_ms": 300,
+      "reveal_ms": 300,
+      "status": null,
+      "origin": null,
+      "actor": null
+     },
+     {
+      "id": "Readback 3",
+      "kind": "external_observation",
+      "lane": 2,
+      "time_ms": 400,
+      "reveal_ms": 400,
+      "status": null,
+      "origin": null,
+      "actor": null
+     },
+     {
+      "id": "Witness 2",
+      "kind": "observed_external_effect",
+      "lane": 1,
+      "time_ms": 12,
+      "reveal_ms": 400,
+      "status": null,
+      "origin": null,
+      "actor": "agent"
+     },
+     {
+      "id": "Readback 4",
+      "kind": "external_observation",
+      "lane": 2,
+      "time_ms": 400,
+      "reveal_ms": 400,
+      "status": null,
+      "origin": null,
+      "actor": null
+     },
+     {
+      "id": "Verification 1",
+      "kind": "verification",
+      "lane": 3,
+      "time_ms": 300,
+      "reveal_ms": 300,
+      "status": "unknown",
+      "origin": "confirmed",
+      "actor": null
+     },
+     {
+      "id": "Verification 2",
+      "kind": "verification",
+      "lane": 3,
+      "time_ms": 400,
+      "reveal_ms": 400,
+      "status": "violated",
+      "origin": "confirmed",
+      "actor": null
+     }
+    ],
+    "edges": [
+     {
+      "source": "Dispatch 1",
+      "target": "Response 1",
+      "kind": "DEPENDENCY",
+      "label": "Declared dependency"
+     },
+     {
+      "source": "Response 1",
+      "target": "Assessment 1",
+      "kind": "DEPENDENCY",
+      "label": "Declared dependency"
+     },
+     {
+      "source": "Dispatch 1",
+      "target": "Response 1",
+      "kind": "RESPONSE",
+      "label": "Response to attempt"
+     },
+     {
+      "source": "Witness 1",
+      "target": "Effect identity 1",
+      "kind": "IDENTITY",
+      "label": "Shared effect identifier"
+     },
+     {
+      "source": "Witness 1",
+      "target": "Readback 1",
+      "kind": "OBSERVATION",
+      "label": "Readback witness"
+     },
+     {
+      "source": "Dispatch 1",
+      "target": "Witness 1",
+      "kind": "EFFECT",
+      "label": "Provider origin metadata"
+     },
+     {
+      "source": "Witness 2",
+      "target": "Effect identity 1",
+      "kind": "IDENTITY",
+      "label": "Shared effect identifier"
+     },
+     {
+      "source": "Witness 2",
+      "target": "Readback 3",
+      "kind": "OBSERVATION",
+      "label": "Readback witness"
+     },
+     {
+      "source": "Dispatch 1",
+      "target": "Witness 2",
+      "kind": "EFFECT",
+      "label": "Provider origin metadata"
+     },
+     {
+      "source": "Contract 1",
+      "target": "Verification 1",
+      "kind": "CONTRACT",
+      "label": "Declared contract"
+     },
+     {
+      "source": "Readback 1",
+      "target": "Verification 1",
+      "kind": "VERIFICATION",
+      "label": "Verification evidence"
+     },
+     {
+      "source": "Witness 1",
+      "target": "Verification 1",
+      "kind": "VERIFICATION",
+      "label": "Verification evidence"
+     },
+     {
+      "source": "Readback 2",
+      "target": "Verification 1",
+      "kind": "VERIFICATION",
+      "label": "Verification evidence"
+     },
+     {
+      "source": "Contract 1",
+      "target": "Verification 2",
+      "kind": "CONTRACT",
+      "label": "Declared contract"
+     },
+     {
+      "source": "Readback 3",
+      "target": "Verification 2",
+      "kind": "VERIFICATION",
+      "label": "Verification evidence"
+     },
+     {
+      "source": "Witness 2",
+      "target": "Verification 2",
+      "kind": "VERIFICATION",
+      "label": "Verification evidence"
+     },
+     {
+      "source": "Readback 4",
+      "target": "Verification 2",
+      "kind": "VERIFICATION",
+      "label": "Verification evidence"
+     }
+    ],
+    "full_counts": {
+     "nodes": 16,
+     "edges": 25
+    }
+   },
+   "explanation": {
+    "state": "violated",
+    "origin": "confirmed",
+    "alignment": "contradicted",
+    "diagnoses": [
+     "ASSESSMENT_DIVERGENCE",
+     "RESPONSE_EFFECT_DIVERGENCE",
+     "CONSEQUENCE_VIOLATION",
+     "PART_VIOLATED"
+    ],
+    "diagnosis": "ASSESSMENT_DIVERGENCE / RESPONSE_EFFECT_DIVERGENCE / CONSEQUENCE_VIOLATION / PART_VIOLATED",
+    "summary": "Agent reported success; independent verification is violated; effect origin is confirmed.",
+    "reason": "All 2 parts are required: refund-o-17 satisfied; close-t-9 violated"
    }
   }
  ]
