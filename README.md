@@ -1,8 +1,8 @@
-# Consequa-X website
+# ConseqaX website
 
-Public source for the Consequa-X landing page, documentation, evidence
+Public source for the ConseqaX landing page, documentation, evidence
 inspector and live package demo. The Python framework is available on
-[PyPI](https://pypi.org/project/consequa-x/2.1.0/); its source, issues and
+[PyPI](https://pypi.org/project/consequa-x/2.1.1/); its source, issues and
 security policy are in the public
 [consequa-x repository](https://github.com/Devrajsinh-Jhala/consequa-x), where
 these website files are maintained and mirrored here for deployment.
@@ -18,7 +18,7 @@ website.
 The site is deployed at https://consequa-x.onrender.com, which the sitemap
 names as the canonical host.
 
-`website/dist/assets/demo-data.js` is generated from real Consequa-X 2.1.0 runs
+`website/dist/assets/demo-data.js` is generated from real ConseqaX 2.1.1 runs
 of the synthetic demo: the recorded command output, four demo traces and the
 `explain()` result for each. The inspector and terminal replay that data; they
 run no action, verifier, model or payment in the browser. The demo window shows

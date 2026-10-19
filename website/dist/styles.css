@@ -1,4 +1,4 @@
-/* Consequa-X site. Shared base (also used by the documentation pages), then the homepage.
+/* ConseqaX site. Shared base (also used by the documentation pages), then the homepage.
    Motion: one easing family, transform/opacity only, and nothing moves without a reason. */
 
 @font-face{font-family:"Space Grotesk";src:url("fonts/SpaceGrotesk-Variable.ttf") format("truetype");font-weight:300 700;font-style:normal;font-display:swap}

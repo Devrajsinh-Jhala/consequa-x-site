@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0d10">
-  <meta name="description" content="A five-minute offline artifact-delivery quickstart and the Consequa-X report API.">
-  <title>Documentation — Consequa-X</title>
+  <meta name="description" content="A five-minute offline artifact-delivery quickstart and the ConseqaX report API.">
+  <title>Documentation — ConseqaX</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20261018-ui5">
   <link rel="stylesheet" href="styles.css?v=20261018-ui5">
   <link rel="stylesheet" href="docs.css?v=20261018-ui5">
@@ -13,16 +13,16 @@
 <body class="docs-site">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="docs-header section-shell">
-    <a class="wordmark" href="index.html" aria-label="Consequa-X home"><svg class="brand-symbol" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 23 16 5h10L16 23H6Z" fill="currentColor"/><path d="m8 28 3-5h10l5-9h5L23 28H8Z" fill="currentColor" opacity=".5"/></svg><span>consequa<span class="brand-x">×</span></span></a>
+    <a class="wordmark" href="index.html" aria-label="ConseqaX home"><svg class="brand-symbol" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 23 16 5h10L16 23H6Z" fill="currentColor"/><path d="m8 28 3-5h10l5-9h5L23 28H8Z" fill="currentColor" opacity=".5"/></svg><span>conseqa<span class="brand-x">×</span></span></a>
     <nav aria-label="Main navigation"><a href="docs.html" aria-current="page">Documentation</a><a href="support.html">Support</a><a href="security.html">Security</a><a href="changelog.html">Changelog</a><a class="package-link" href="https://pypi.org/project/consequa-x/">Python package <span aria-hidden="true">↗</span></a></nav>
   </header>
   <div class="docs-layout section-shell">
   <aside class="docs-sidebar" aria-label="On this page"><span class="eyebrow">THE FIELD GUIDE</span><nav><a href="#quickstart">Five-minute quickstart</a><a href="#read-the-evidence">Read the evidence</a><a href="#reports">Offline reports</a><a href="#privacy">Disclosure &amp; sharing</a><a href="#python-api">Python API</a><a href="#integration">Connect your application</a><a href="#boundaries">Trust boundaries</a><a href="#help">Get help</a></nav><a class="sidebar-download" href="quickstart.zip" download>Download the examples <span aria-hidden="true">↓</span><small>Three Python files · synthetic data · MIT</small></a></aside>
   <main class="docs-content" id="main">
-    <div class="docs-hero"><span class="eyebrow">DOCUMENTATION / VERSION 2.1</span><h1>From a trace<br>to a <em>clear account.</em></h1><p class="docs-lead">Create your first offline report, read what the evidence supports, and capture your own agent’s tool calls.</p><div class="docs-prerequisites"><span>Python 3.11 or 3.12</span><span>No API key</span><span>No required runtime dependencies</span></div></div>
-    <div class="docs-callout release-callout"><strong>Version 2.1.0 is available.</strong><p>Install the verified <a href="https://pypi.org/project/consequa-x/2.1.0/">2.1.0 release from PyPI</a>. <a href="changelog.html">Read release notes and the actual platform checks.</a></p></div>
+    <div class="docs-hero"><span class="eyebrow">DOCUMENTATION / VERSION 2.1</span><h1>From a trace<br>to a <em>clear account.</em></h1><p class="docs-lead">Create your first offline report, read what the evidence supports, and capture your own agent’s tool calls.</p><div class="docs-prerequisites"><span>Python 3.11 or newer</span><span>No API key</span><span>No required runtime dependencies</span></div></div>
+    <div class="docs-callout release-callout"><strong>Version 2.1.1 is available.</strong><p>Install the verified <a href="https://pypi.org/project/consequa-x/2.1.1/">2.1.1 release from PyPI</a>. <a href="changelog.html">Read release notes and the actual platform checks.</a></p></div>
     <section id="quickstart"><span class="eyebrow">01 / YOUR FIRST FIVE MINUTES</span><h2>Make the evidence visible.</h2><p>This example performs no delivery or payment. It reads synthetic artifact-store fixtures using the public package APIs.</p>
-      <div class="guide-step"><span class="guide-step-number" aria-hidden="true">1</span><div><h3>Install the package.</h3><p>Use a Python 3.11 or 3.12 environment.</p><div class="code-block"><span class="code-label">console</span><pre><code>python -m pip install consequa-x==2.1.0
+      <div class="guide-step"><span class="guide-step-number" aria-hidden="true">1</span><div><h3>Install the package.</h3><p>Use Python 3.11 or newer.</p><div class="code-block"><span class="code-label">console</span><pre><code>python -m pip install consequa-x==2.1.1
 consequa-x --version</code></pre></div></div></div>
       <div class="guide-step"><span class="guide-step-number" aria-hidden="true">2</span><div><h3>Get the two example files.</h3><p><a href="quickstart.zip" download>Download the quickstart archive</a> and extract it. Keep <code>artifact_delivery.py</code> and <code>report_quickstart.py</code> in the same folder. The archive includes its README and MIT license.</p><p class="small-text">Prefer reading first? <a href="examples/artifact_delivery.py">View the artifact adapter</a> or <a href="examples/report_quickstart.py">view the report example</a>.</p></div></div>
       <div class="guide-step"><span class="guide-step-number" aria-hidden="true">3</span><div><h3>Generate three captured examples.</h3><p>Open a terminal in the extracted folder, then use a new output directory:</p><div class="code-block"><span class="code-label">console</span><pre><code>python report_quickstart.py --output my-first-capture</code></pre></div><p>Open <code>my-first-capture/verified.html</code> in your browser. Compare <code>unknown.html</code> and <code>other-actor.html</code>. Each report has a separate original JSON trace.</p></div></div>
@@ -44,6 +44,6 @@ with Path(&quot;report.html&quot;).open(&quot;x&quot;, encoding=&quot;utf-8&quot
     <section class="docs-next" id="help"><span class="eyebrow">KEEP BUILDING</span><h2>A clear next step.</h2><p><a href="support.html">Ask a question or report a reproducible bug</a>. Use the <a href="security.html">private security route</a> for vulnerabilities, and <a href="changelog.html">release notes</a> for publication status and platform checks.</p><a class="text-link" href="quickstart.zip" download>Download the synthetic quickstart <span aria-hidden="true">↓</span></a></section>
   </main>
 </div>
-  <footer class="docs-footer section-shell"><a href="index.html">consequa<span class="brand-x">×</span></a><p>Evidence-aware explanation of consequential agent actions.</p><nav aria-label="Footer"><a href="docs.html" aria-current="page">Documentation</a><a href="support.html">Support</a><a href="security.html">Security</a><a href="changelog.html">Changelog</a><a href="https://github.com/Devrajsinh-Jhala/consequa-x">GitHub <span aria-hidden="true">↗</span></a></nav><small>© 2026 Devrajsinh Jhala · MIT licensed package</small></footer>
+  <footer class="docs-footer section-shell"><a href="index.html">conseqa<span class="brand-x">×</span></a><p>Evidence-aware explanation of consequential agent actions.</p><nav aria-label="Footer"><a href="docs.html" aria-current="page">Documentation</a><a href="support.html">Support</a><a href="security.html">Security</a><a href="changelog.html">Changelog</a><a href="https://github.com/Devrajsinh-Jhala/consequa-x">GitHub <span aria-hidden="true">↗</span></a></nav><small>© 2026 Devrajsinh Jhala · MIT licensed package</small></footer>
 </body>
 </html>

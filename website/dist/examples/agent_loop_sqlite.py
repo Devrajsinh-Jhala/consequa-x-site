@@ -1,8 +1,8 @@
-"""A tool-calling agent loop, captured with Consequa-X and checked against SQLite.
+"""A tool-calling agent loop, captured with ConseqaX and checked against SQLite.
 
 Standard library only, offline and deterministic. A scripted support agent reads
 a customer message, decides to call an ``issue_refund`` tool, and reports what it
-believes happened. The tool writes to a real SQLite database. Consequa-X
+believes happened. The tool writes to a real SQLite database. ConseqaX
 records the loop as it runs, then reads the outcome back through a separate
 read-only connection and verifies it with the built-in ``RecordVerifier``.
 
@@ -16,7 +16,7 @@ outcome:
 - ``stale_readback``: the tool succeeds, but readback comes from a replica that
   lags behind the contract horizon, so the outcome stays unknown.
 
-Run from this folder with Consequa-X 2.0 or newer installed::
+Run from this folder with ConseqaX 2.0 or newer installed::
 
     python agent_loop_sqlite.py --mode timeout_after_commit --output agent-run
 

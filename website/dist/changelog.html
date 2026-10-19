@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0d10">
-  <meta name="description" content="Consequa-X release status, compatibility and platform validation.">
-  <title>Changelog — Consequa-X</title>
+  <meta name="description" content="ConseqaX release status, compatibility and platform validation.">
+  <title>Changelog — ConseqaX</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20261018-ui5">
   <link rel="stylesheet" href="styles.css?v=20261018-ui5">
   <link rel="stylesheet" href="docs.css?v=20261018-ui5">
@@ -13,10 +13,13 @@
 <body class="docs-site">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="docs-header section-shell">
-    <a class="wordmark" href="index.html" aria-label="Consequa-X home"><svg class="brand-symbol" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 23 16 5h10L16 23H6Z" fill="currentColor"/><path d="m8 28 3-5h10l5-9h5L23 28H8Z" fill="currentColor" opacity=".5"/></svg><span>consequa<span class="brand-x">×</span></span></a>
+    <a class="wordmark" href="index.html" aria-label="ConseqaX home"><svg class="brand-symbol" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M6 23 16 5h10L16 23H6Z" fill="currentColor"/><path d="m8 28 3-5h10l5-9h5L23 28H8Z" fill="currentColor" opacity=".5"/></svg><span>conseqa<span class="brand-x">×</span></span></a>
     <nav aria-label="Main navigation"><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="security.html">Security</a><a href="changelog.html" aria-current="page">Changelog</a><a class="package-link" href="https://pypi.org/project/consequa-x/">Python package <span aria-hidden="true">↗</span></a></nav>
   </header>
-  <main class="docs-article section-shell" id="main"><div class="article-intro"><span class="eyebrow">RELEASES / PACKAGE HISTORY</span><h1>A record of<br><em>what changed.</em></h1><p class="docs-lead">Release status and compatibility claims, grounded in what has actually been checked.</p></div><div class="article-body"><h2>2.1.0 — 19 October 2026</h2>
+  <main class="docs-article section-shell" id="main"><div class="article-intro"><span class="eyebrow">RELEASES / PACKAGE HISTORY</span><h1>A record of<br><em>what changed.</em></h1><p class="docs-lead">Release status and compatibility claims, grounded in what has actually been checked.</p></div><div class="article-body"><h2>2.1.1 — 19 October 2026</h2>
+<ul><li>The project is now written ConseqaX. You still install it with pip install consequa-x and import consequa_x.</li><li>Tested on Python 3.13, 3.14 and 3.15 as well as 3.11 and 3.12.</li><li>Each framework integration was run once with a real model: the OpenAI Agents SDK and LangChain with a local model through Ollama, the Claude Agent SDK with Claude Haiku. The recorded tool calls matched what actually ran.</li><li>A new example, two_part_outcome.py, checks a refund and a ticket closure as one outcome.</li></ul>
+<p>Both files are published on PyPI with their registry hashes and sizes verified, and a fresh install from PyPI passed the installed checks. Installed checks of the same wheel passed on Windows with Python 3.11.9, 3.12.10, 3.13.16, 3.14.8 and 3.15.0, and on Alpine Linux 3.24.2 with Python 3.14.8 in a local QEMU guest. The Linux result covers one emulated guest; macOS has not been tested.</p>
+<h2>2.1.0 — 19 October 2026</h2>
 <p>An additive release with the features 2.0.0 left out. Saved traces and code written for 2.0 work unchanged.</p>
 <ul><li>Outcomes with several parts: all_of and any_of contracts, checked part by part by CompositeVerifier against one readback per source. Unknown parts keep the outcome unknown unless another part already settles it.</li><li>Optional integrations record tool calls from the OpenAI Agents SDK, LangChain and the Claude Agent SDK, for the calls your application marks as consequential.</li><li>OpenTelemetry: export traces as OTLP/JSON or through opentelemetry-api, and start a trace from the execute_tool spans of other instrumentation.</li><li>consequa-x verify accepts one readback per source; new otel-export and otel-import commands.</li></ul>
 <p>The integrations were tested offline against openai-agents 0.24.0, langchain-core 1.6.12, claude-agent-sdk 0.2.168 and opentelemetry 1.45.1, without a live model or tracing backend. Report tables now scroll on narrow screens instead of squeezing their cells.</p>
@@ -37,6 +40,6 @@
 <p>The report default omits arbitrary captured data; explicit details remain potentially sensitive. Browser review covered desktop, mobile, hostile text, unknown evidence and conflicting witnesses. Print styles preserve full tables while omitting the bounded diagram; physical printer pagination was not tested.</p>
 <h2>1.0.0 — 15 October 2026</h2>
 <p>Published stable evidence core with typed traces, explicit application verifiers, domain-specific target matching, separate outcome/origin, witness-preserving graphs, CLI fixtures and optional local Ollama research integration. Windows Python 3.11 and 3.12 installations were checked. Broader platform results and research superiority are not inferred from these tests.</p></div><div class="article-return"><a class="text-link" href="docs.html">Back to the field guide <span aria-hidden="true">↗</span></a></div></main>
-  <footer class="docs-footer section-shell"><a href="index.html">consequa<span class="brand-x">×</span></a><p>Evidence-aware explanation of consequential agent actions.</p><nav aria-label="Footer"><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="security.html">Security</a><a href="changelog.html" aria-current="page">Changelog</a><a href="https://github.com/Devrajsinh-Jhala/consequa-x">GitHub <span aria-hidden="true">↗</span></a></nav><small>© 2026 Devrajsinh Jhala · MIT licensed package</small></footer>
+  <footer class="docs-footer section-shell"><a href="index.html">conseqa<span class="brand-x">×</span></a><p>Evidence-aware explanation of consequential agent actions.</p><nav aria-label="Footer"><a href="docs.html">Documentation</a><a href="support.html">Support</a><a href="security.html">Security</a><a href="changelog.html" aria-current="page">Changelog</a><a href="https://github.com/Devrajsinh-Jhala/consequa-x">GitHub <span aria-hidden="true">↗</span></a></nav><small>© 2026 Devrajsinh Jhala · MIT licensed package</small></footer>
 </body>
 </html>
